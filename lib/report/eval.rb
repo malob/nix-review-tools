@@ -7,15 +7,10 @@ module Report::Eval
   # This is dirty and should probably sanitize more.
   # This assumes all paths are related (multiple outputs)
   def self.reduce_paths(paths)
-    paths = paths
+    paths
       .map { |p| p.split("-", 2).last }
       .sort
       .first
-    [
-      "<tt>",
-      paths,
-      "</tt>",
-    ].join("")
   end
 
   def self.failure_propagation(evals)
@@ -69,7 +64,11 @@ module Report::Eval
         path = reduce_paths(step[:what])
         md << "<tr>"
         md << "<td>"
-        md << "<details><summary>#{platform} #{path}</summary>"
+        md << if step[:status][:links][3] then
+          "<details><summary><tt><a href='#{step[:status][:links][3][:url]}'>#{platform} #{path}</a></tt></summary>"
+        else
+          "<details><summary><tt>#{platform} #{path}</tt></summary>"
+        end
         md << "<ul>"
         md.concat (failures.map do |failure|
           propagates_to = failure[:propagates_to]
@@ -138,7 +137,7 @@ module Report::Eval
             acc << "<li>"
             acc << [
               "<b>=> #{details[:status][:type]}</b>",
-              reduce_paths(details[:what]),
+              "<tt>#{reduce_paths(details[:what])}</tt>",
               "<br />",
               details[:status][:links].map do |link|
                 "<a href='#{link[:url]}'>#{link[:text]}</a>"
