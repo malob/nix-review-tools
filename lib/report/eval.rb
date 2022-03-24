@@ -102,8 +102,7 @@ module Report::Eval
     acc = []
     acc << "### #{name}\n"
     acc << ""
-    acc << " * #{data.count} issues"
-    acc << "<details><summary>Failure table</summary>"
+    acc << "<details><summary>#{data.count} issues</summary>"
     acc << "<table>"
     acc << "<thead><tr>"
     acc << "<th>job</th>"
