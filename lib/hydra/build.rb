@@ -18,6 +18,7 @@ module Hydra::Build
       .xpath("//*[contains(text(),'Failed build steps')]").first
       .next_element
       .css("tbody > tr")
+      .slice(0, 1)
       .map do |step|
         columns = step.css("td")
         what = columns[FAILED_BUILD_STEPS_COLUMNS[:what]].css("tt").first.text.split(",")
