@@ -13,6 +13,8 @@ module Hydra::Fetch
       "--silent",
       "--show-error",
       "--fail",
+      "--user-agent",
+      "nix-review-tools-reports",
       url
     ]
 
